@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
-from restapp.views import TaskViewSet
+from restapp.views import TaskViewSet,TasksCompletedViewSet,TasksDueViewSet
 
-router = routers.DefaultRouter()
+#router = routers.DefaultRouter()    defaultrouter gives default page for route '/'
+router = routers.SimpleRouter()
 router.register('task',TaskViewSet)
-
+router.register('tasks-due',TasksDueViewSet)
+router.register('tasks-done',TasksCompletedViewSet)
 
 
 urlpatterns = [
