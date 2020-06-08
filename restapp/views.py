@@ -1,14 +1,19 @@
 from django.shortcuts import render
-from .serializers import TaskSerializers
+from .serializers import TaskSerializers,UserSerializer
 from rest_framework import viewsets
 from .models import Task
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated,AllowAny #Allows access only to authenticated users.
+#Allowany gives access to anyone to register for new class i.e.,CreateUserView
+from rest_framework.generics import CreateAPIView
+from django.contrib.auth import get_user_model
 
 # Provides generic filtering backends that can be used to filter the results returned by list views.
 from rest_framework import filters
 # Create your views here.
 
 class TaskViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,) #class is access restricted to other than authenticated users
     queryset = Task.objects.all().order_by('date_created')
     serializer_class = TaskSerializers
     #below code using django filters
@@ -19,6 +24,13 @@ class TaskViewSet(viewsets.ModelViewSet):
     filter_fields = ('is_completed',)  #by which field u want to filter
     #ordering = ('date_created')   #can be used like this as well
     search_fields = ('task_name',)    #?search=Django gives that specific task obj with contains django in taskname
+
+
+class CreateUserView(CreateAPIView):
+    model = get_user_model()
+    permission_classes = (AllowAny,)
+    serializer_class = UserSerializer
+
 
 
 '''

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
-from restapp.views import TaskViewSet#TasksCompletedViewSet,TasksDueViewSet
+from restapp.views import TaskViewSet,CreateUserView#TasksCompletedViewSet,TasksDueViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 from restapp import views
@@ -33,7 +33,14 @@ router.register('tasks-done',TasksCompletedViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include(router.urls))
+    path('',include(router.urls)),
+    path('register/',views.CreateUserView.as_view(), name = 'user'),
+    
+    #We can add a login view for use with the browsable API, by editing the URLconf
+    #The 'api-auth/' part of pattern can actually be whatever URL you want to use.
+    #Now if you open up the browser again and refresh the page you'll see a 'Login' link in the top right of the page.
+    
+    path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)    #this is for loading media iamges
 
 
