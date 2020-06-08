@@ -14,9 +14,11 @@ class TaskViewSet(viewsets.ModelViewSet):
     #below code using django filters
     # these are need for filtering to work,can be defined in settings also if not here
     #http://127.0.0.1:8000/task/?is_completed=False gives due tasks and viceversa
-    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    # search filter enables to return back a specific match based on search_fields
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter , filters.SearchFilter)
     filter_fields = ('is_completed',)  #by which field u want to filter
     #ordering = ('date_created')   #can be used like this as well
+    search_fields = ('task_name',)    #?search=Django gives that specific task obj with contains django in taskname
 
 
 '''
