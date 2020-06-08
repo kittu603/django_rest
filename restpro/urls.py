@@ -16,16 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
-from restapp.views import TaskViewSet,TasksCompletedViewSet,TasksDueViewSet
+from restapp.views import TaskViewSet#TasksCompletedViewSet,TasksDueViewSet
 from django.conf.urls.static import static
 from django.conf import settings
+from restapp import views
 
-#router = routers.DefaultRouter()    defaultrouter gives default page for route '/'
+router = routers.DefaultRouter()   # defaultrouter gives default page for route '/'
+router.register('task', views.TaskViewSet)
+'''
+using simple router for classbase views
 router = routers.SimpleRouter()
 router.register('task',TaskViewSet)
 router.register('tasks-due',TasksDueViewSet)
 router.register('tasks-done',TasksCompletedViewSet)
-
+'''
 
 urlpatterns = [
     path('admin/', admin.site.urls),
