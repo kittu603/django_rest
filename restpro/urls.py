@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
 from restapp.views import TaskViewSet,TasksCompletedViewSet,TasksDueViewSet
+from django.conf.urls.static import static
+from django.conf import settings
 
 #router = routers.DefaultRouter()    defaultrouter gives default page for route '/'
 router = routers.SimpleRouter()
@@ -28,4 +30,8 @@ router.register('tasks-done',TasksCompletedViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include(router.urls))
-]
+] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)    #this is for loading media iamges
+
+
+#settings.MEDIA_URL from django settings gives /media/
+#settings.MEDIA_ROOT gives MEDIA_ROOT = os.path.join(BASE_DIR,'media')

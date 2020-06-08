@@ -6,6 +6,8 @@ from rest_framework import serializers
 # remeber every rest API shld give data in JSON
 
 class TaskSerializers(serializers.ModelSerializer):
+    image = serializers.ImageField(use_url = True)   #modifying image serializer setting here to show image url
+
     class Meta:
         model = Task   #which data table to pass to serializer
         fields = '__all__'
